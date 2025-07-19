@@ -10,53 +10,54 @@
       xrextras-loading
       xrextras-runtime-error
       embedded
-      arjs
     >
+      <!-- Assets -->
+      <a-assets>
+        <video
+          id="myVideo"
+          src="your-video.mp4"
+          crossorigin="anonymous"
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          style="display: none"
+        ></video>
+        <img id="playIcon" src="play-icon.png" />
+      </a-assets>
+
       <!-- Video Plane -->
       <a-video
         id="videoPlane"
         src="#myVideo"
-        width="0.8"
-        height="0.45"
-        position="0 0 -2"
+        width="0.9"
+        height="0.5"
+        position="0 0 -1.5"
         rotation="-90 0 0"
-        visible="true"
       ></a-video>
 
-      <!-- Custom Play Button -->
+      <!-- Play Button -->
       <a-image
         id="playButton"
         src="#playIcon"
         width="0.2"
         height="0.2"
-        position="0 0.1 -1.9"
+        position="0 0 -1.4"
         rotation="-90 0 0"
         class="clickable"
       ></a-image>
-
-      <!-- Assets -->
-      <a-assets>
-        <video
-          id="myVideo"
-          src="video.mp4"
-          preload="auto"
-          crossorigin="anonymous"
-          playsinline
-          webkit-playsinline
-          style="display: none"
-        ></video>
-        <img id="playIcon" src="play-icon.png" />
-      </a-assets>
     </a-scene>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const playButton = document.querySelector("#playButton");
-        const video = document.querySelector("#myVideo");
+      const playButton = document.querySelector("#playButton");
+      const video = document.querySelector("#myVideo");
 
-        playButton.addEventListener("click", () => {
-          video.play();
-          playButton.setAttribute("visible", "false"); // hide the play button
+      playButton.addEventListener("click", function () {
+        // Important: make sure video is allowed to play on user interaction
+        video.play().then(() => {
+          console.log("Video playing...");
+          playButton.setAttribute("visible", "false");
+        }).catch((e) => {
+          console.error("Video play failed:", e);
         });
       });
     </script>
